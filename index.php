@@ -130,7 +130,7 @@ if ($errors == 0) {
     
     
     $send = mail($to,$subjectEmail,$messageHTML,$headers);
-    if($sent){
+    if($send){
         $user_message = "Your email has been sent.";
         $messageColor = "green lighten-3";
         $sendSuccess = "<div class='chip $messageColor'>$user_message<i class='close material-icons'>close</i></div>";
@@ -140,8 +140,6 @@ if ($errors == 0) {
         $sendSuccess = "<div class='chip $messageColor'>$user_message<i class='close material-icons'>close</i></div>";
     }
 }
-    //$serverMessage = "Thank you! Your message has been successfully sent.";
-    //$messageColor = "green lighten-3";
 }
 
 ?>
@@ -158,7 +156,9 @@ if ($errors == 0) {
     <!-- Materialize CSS CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
     <!-- Your custom styles -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    
+    
 </head>
 <body>
     <header>
@@ -194,7 +194,7 @@ if ($errors == 0) {
         <!-- Your content here -->
         <section class="row">
             <div class="col s4">
-                <img class="responsive-img"  src="./assets/img/hackers-poulette-logo.png" alt="Hackers Poulette Logo">
+                <img class="responsive-img"  src="./assets/img/hackers-poulette-logo.jpg" alt="Hackers Poulette Logo">
             </div>
         
             <h1 class="col s8">Support page</h1>
@@ -283,9 +283,9 @@ if ($errors == 0) {
         </div>
     </footer>
     <!-- jQuery CDN -->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script> -->
     <!-- Materialize JS CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script> -->
     <script>
 
         $('select').material_select();
