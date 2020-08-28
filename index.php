@@ -1,4 +1,9 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+require 'vendor/autoload.php';
+$mail = new PHPMailer(true);
 $firstName;
 $lastName;
 $gender;
@@ -43,6 +48,7 @@ if(isset($_GET['submit'])){
     }
     if(isset($_GET['gender'])){
         $gender = $_GET['gender'];
+        $genderCall = ($gender == "male") ? "Mr." : "Mme.";
     }else{
         $serverMessage = "Please provide your gender.";
         $messageColor = "red lighten-4";
@@ -99,47 +105,45 @@ if(isset($_GET['submit'])){
         array_push($serverMessages, "<div class='chip $messageColor'>$serverMessage<i class='close material-icons'>close</i></div>");
         $errors += 1;
     }
+    
 if ($errors == 0) {
-    $to = "matrix0130@gmail.com";
-    $subjectEmail = $subject;
+    try {
+        $sendSuccess;
+        //Server settings
+        //$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
+        $mail->isSMTP();                                            // Send using SMTP
+        $mail->Host       = 'smtp.gmail.com';                    // Set the SMTP server to send through
+        $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
+        $mail->Username   = 'matrix0130@gmail.com';                     // SMTP username
+        $mail->Password   = 'mkahm1391422';                               // SMTP password
+        $mail->SMTPSecure = "tls";         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+        $mail->Port       = 587;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
     
-    $messageHTML = "
-    <html>
-    <head>
-    <title>HTML email</title>
-    </head>
-    <body>
-    <p>This email contains HTML Tags!</p>
-    <table>
-    <tr>
-    <th>$firstName</th>
-    <th>$lastName</th>
-    </tr>
-    </table>
-    <div>$message</div>
-    </body>
-    </html>
-    ";
+        //Recipients
+        $mail->setFrom('matrix0130@gmail.com', $firstName . ' ' . $lastName);
+        $mail->addAddress('m.shmayssany@gmail.com', 'Mohammed Shmayssany');     // Add a recipient
     
-    // Always set content-type when sending HTML email
-    $headers = "MIME-Version: 1.0" . "\r\n";
-    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-    
-    // More headers
-    $headers .= "From: <$email>" . "\r\n";
-    
-    
-    $send = mail($to,$subjectEmail,$messageHTML,$headers);
-    if($send){
+        // Content
+        $mail->isHTML(true);                                  // Set email format to HTML
+        $mail->Subject = $subject;
+        $mail->Body    = "<html>
+        <body>
+        <h1>$genderCall $firstName $lastName</h1>
+        <h5>From : $country   Email : $email</h5>
+        <p><strong>$subject</strong></p>
+        <p>$message</p>
+        </body>
+        </html>";     
+        $mail->send();
         $user_message = "Your email has been sent.";
         $messageColor = "green lighten-3";
         $sendSuccess = "<div class='chip $messageColor'>$user_message<i class='close material-icons'>close</i></div>";
-    }else{
-        $user_message = "There was a problem sending your email.";
+    } catch (Exception $e) {
+        $user_message = "There was a problem sending your email. Error: {$mail->ErrorInfo}";
         $messageColor = "red lighten-4";
         $sendSuccess = "<div class='chip $messageColor'>$user_message<i class='close material-icons'>close</i></div>";
     }
-}
+ }
 }
 
 ?>
@@ -283,9 +287,9 @@ if ($errors == 0) {
         </div>
     </footer>
     <!-- jQuery CDN -->
-    <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script> -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <!-- Materialize JS CDN -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
     <script>
 
         $('select').material_select();
