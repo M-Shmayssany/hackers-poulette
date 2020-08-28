@@ -1,0 +1,33 @@
+@font-face {
+  font-family: 'Bellota-BoldItalic';
+  src: url("Bellota-BoldItalic-webfont.woff") format("woff");
+}
+
+body {
+  font-family: 'Bellota-BoldItalic', Arial, sans-serif;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  background-color: #fff !important;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+.nav-wrapper {
+  background-color: #0d8187 !important;
+}
+
+footer {
+  background-color: #303030 !important;
+}
+
+.footer-copyright {
+  background-color: #0d8187 !important;
+}
+
+.userView {
+  height: 204px !important;
+}
+/*# sourceMappingURL=style.css.map */
