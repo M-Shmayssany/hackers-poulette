@@ -1,3 +1,151 @@
+<?php
+$firstName;
+$lastName;
+$gender;
+$country;
+$email;
+$subject;
+$message;
+$sendSuccess;
+$serverMessage = "";
+$serverMessages = [];
+$errors = 0;
+$messageColor = "red lighten-4";
+
+if(isset($_GET['submit'])){
+    if(isset($_GET['first_name'])){
+        $firstName = $_GET['first_name'];
+        if(strlen($firstName) <= 2){
+        $serverMessage = "first name is too short.";
+        $messageColor = "red lighten-4";
+        array_push($serverMessages, "<div class='chip $messageColor'>$serverMessage<i class='close material-icons'>close</i></div>");
+        $errors += 1;
+        }
+    }else{
+        $messageColor = "red lighten-4";
+        $serverMessage = "Please enter your first name.";
+        array_push($serverMessages, "<div class='chip $messageColor'>$serverMessage<i class='close material-icons'>close</i></div>");
+        $errors += 1;
+    }
+    if(isset($_GET['last_name'])){
+        $lastName = $_GET['last_name'];
+        if(strlen($lastName) <= 2){
+            $serverMessage = "last name is too short.";
+            $messageColor = "red lighten-4";
+            array_push($serverMessages, "<div class='chip $messageColor'>$serverMessage<i class='close material-icons'>close</i></div>");
+            $errors += 1;
+        }
+    }else{
+        $serverMessage = "Please enter your last name.";
+        $messageColor = "red lighten-4";
+        array_push($serverMessages, "<div class='chip $messageColor'>$serverMessage<i class='close material-icons'>close</i></div>");
+        $errors += 1;
+    }
+    if(isset($_GET['gender'])){
+        $gender = $_GET['gender'];
+    }else{
+        $serverMessage = "Please provide your gender.";
+        $messageColor = "red lighten-4";
+        array_push($serverMessages, "<div class='chip $messageColor'>$serverMessage<i class='close material-icons'>close</i></div>");
+        $errors += 1;
+    }
+    if(isset($_GET['country'])){
+        $country = $_GET['country'];
+        if(strlen($country) <= 2){
+            $serverMessage = "Country is too short.";
+            $messageColor = "red lighten-4";
+            array_push($serverMessages, "<div class='chip $messageColor'>$serverMessage<i class='close material-icons'>close</i></div>");
+            $errors += 1;
+        }
+    }else{
+        $serverMessage = "Please provide your country.";
+        $messageColor = "red lighten-4";
+        array_push($serverMessages, "<div class='chip $messageColor'>$serverMessage<i class='close material-icons'>close</i></div>");
+        $errors += 1;
+    }
+    if(isset($_GET['email'])){
+        $email = $_GET['email'];
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $serverMessage = "Invalid email format";
+            $messageColor = "red lighten-4";
+            array_push($serverMessages, "<div class='chip $messageColor'>$serverMessage<i class='close material-icons'>close</i></div>");
+            $errors += 1;
+        }
+    }else{
+        $serverMessage = "Please enter your email address.";
+        $messageColor = "red lighten-4";
+        array_push($serverMessages, "<div class='chip $messageColor'>$serverMessage<i class='close material-icons'>close</i></div>");
+        $errors += 1;
+    }
+    if(isset($_GET['subject'])){
+        $subject = $_GET['subject'];
+    }else{
+        $serverMessage = "Please specify your subject.";
+        $messageColor = "red lighten-4";
+        array_push($serverMessages, "<div class='chip $messageColor'>$serverMessage<i class='close material-icons'>close</i></div>");
+        $errors += 1;
+    }
+    if(strlen($_GET['message']) > 0){
+        $message = $_GET['message'];
+        if(strlen($message) < 25){
+            $serverMessage = "The message is too short, minimum 25 characters.";
+            $messageColor = "red lighten-4";
+            array_push($serverMessages, "<div class='chip $messageColor'>$serverMessage<i class='close material-icons'>close</i></div>");
+            $errors += 1;
+        }
+    }else{
+        $serverMessage = "please enter your message.";
+        $messageColor = "red lighten-4";
+        array_push($serverMessages, "<div class='chip $messageColor'>$serverMessage<i class='close material-icons'>close</i></div>");
+        $errors += 1;
+    }
+if ($errors == 0) {
+    $to = "matrix0130@gmail.com";
+    $subjectEmail = $subject;
+    
+    $messageHTML = "
+    <html>
+    <head>
+    <title>HTML email</title>
+    </head>
+    <body>
+    <p>This email contains HTML Tags!</p>
+    <table>
+    <tr>
+    <th>$firstName</th>
+    <th>$lastName</th>
+    </tr>
+    </table>
+    <div>$message</div>
+    </body>
+    </html>
+    ";
+    
+    // Always set content-type when sending HTML email
+    $headers = "MIME-Version: 1.0" . "\r\n";
+    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+    
+    // More headers
+    $headers .= "From: <$email>" . "\r\n";
+    
+    
+    $send = mail($to,$subjectEmail,$messageHTML,$headers);
+    if($sent){
+        $user_message = "Your email has been sent.";
+        $messageColor = "green lighten-3";
+        $sendSuccess = "<div class='chip $messageColor'>$user_message<i class='close material-icons'>close</i></div>";
+    }else{
+        $user_message = "There was a problem sending your email.";
+        $messageColor = "red lighten-4";
+        $sendSuccess = "<div class='chip $messageColor'>$user_message<i class='close material-icons'>close</i></div>";
+    }
+}
+    //$serverMessage = "Thank you! Your message has been successfully sent.";
+    //$messageColor = "green lighten-3";
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +171,7 @@
                         <li><a href="#">Home</a></li>
                         <li><a href="#">Products</a></li>
                         <li><a href="#">Technology</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="index.php">Contact</a></li>
                     </ul>
                 <ul class="side-nav" id="mobile-menu">
                     <li>
@@ -36,7 +184,7 @@
                     <li><a href="#">Home</a></li>
                     <li><a href="#">Products</a></li>
                     <li><a href="#">Technology</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="index.php">Contact</a></li>
                 </ul>
             </div>
             </div>
@@ -50,26 +198,64 @@
             </div>
         
             <h1 class="col s8">Support page</h1>
-            <form class="col s8" method="post" action="">
+            <?php //echo "<p class='col s4 $messageColor'>$serverMessage $serMessage</p>" ?>
+            <?php
+            foreach($serverMessages as $serverMessage){
+                echo $serverMessage;
+            } 
+            echo $sendSuccess;
+            ?>
+            <form class="col s8" method="get" action="index.php">
                 <div class="col s4" >
                     <i class="material-icons">account_circle</i>
                     <label for="first_name">First Name</label>
-                    <input placeholder="Enter first name!" id="first_name" type="text" class="validate">
+                    <input placeholder="Enter first name!" name="first_name" id="first_name" type="text" class="validate">
                 </div>
                 <div class="col s4" >
                     <label for="last_name">Last Name</label>
-                    <input  placeholder="Enter last name!" id="last_name" type="text" class="validate">
+                    <input  placeholder="Enter last name!" name="last_name" id="last_name" type="text" class="validate">
                 </div>
-                <div class="container">  
-  <div class="row">
-    <div class="input-field s6">      
-      <select class="validate">
-        <option value="" disabled selected>Choose your option</option>
-        <option value="1">Option 1</option>
-        <option value="2">Option 2</option>
-        <option value="3">Option 3</option>
-      </select>
-
+                <div class="col s12">
+                    <div class="input-field col s4">
+                        <select name="gender">
+                            <option value="" disabled selected>Choose your gender</option>
+                            <option value="male">male</option>
+                            <option value="female">female</option>
+                        </select>
+                        <label>Gender</label>
+                    </div>
+                    <div class="col s4" >
+                        <label for="country">Country</label>
+                        <input  placeholder="Country" name="country" id="country" type="text" class="validate">
+                    </div>
+                </div>
+                <div class="col s12">
+                    <div class="col s4" >
+                        <i class="material-icons">email</i>
+                        <label for="email">Email</label>
+                        <input  placeholder="Enter your email!" name="email" id="email" type="email" class="validate">
+                    </div>
+                    <div class="input-field col s4">
+                        <select name="subject" id="subject">
+                            <option value="" disabled selected>Choose your subject</option>
+                            <option value="1">Technical problem</option>
+                            <option value="2">Hardware defect</option>
+                            <option value="3">Warranty claim</option>
+                        </select>
+                        <label>Subject</label>
+                    </div>
+                </div>
+                <div class="input-field col s8">
+                    <i class="material-icons prefix">mode_edit</i>
+                    <textarea id="textarea1" name="message" class="materialize-textarea"></textarea>
+                    <label for="textarea1">Message</label>
+                    <button class="btn waves-effect waves-light" type="reset">Reset
+                        <i class="material-icons right">refresh</i>
+                    </button>
+                    <button class="btn waves-effect waves-light" type="submit" name="submit"  value="submit">Submit
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
             </form>
         </section>
         <section>
@@ -91,8 +277,8 @@
         </div>
         <div class="footer-copyright">
             <div class="container">
-                © 2017 Copyright Text
-                <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+                © 2017 Copyright Mohamed Shmayssany @ Becode.org
+                
             </div>
         </div>
     </footer>
@@ -101,9 +287,8 @@
     <!-- Materialize JS CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
     <script>
-        $(document).ready(function(){
-            $('select').formSelect();
-        });
+
+        $('select').material_select();
         $("document").ready(function(){
             $(".button-collapse").sideNav();
         });
