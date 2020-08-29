@@ -11,7 +11,7 @@ $country;
 $email;
 $subject;
 $message;
-$sendSuccess;
+$sendSuccess = "";
 $serverMessage = "";
 $serverMessages = [];
 $errors = 0;
@@ -85,6 +85,7 @@ if(isset($_GET['submit'])){
     }
     if(isset($_GET['subject'])){
         $subject = $_GET['subject'];
+
     }else{
         $serverMessage = "Please specify your subject.";
         $messageColor = "red lighten-4";
@@ -120,7 +121,7 @@ if ($errors == 0) {
         $mail->Port       = 587;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
     
         //Recipients
-        $mail->setFrom('matrix0130@gmail.com', $firstName . ' ' . $lastName);
+        $mail->setFrom('matrix0130@gmail.com', 'Customer service claim');
         $mail->addAddress('m.shmayssany@gmail.com', 'Mohammed Shmayssany');     // Add a recipient
     
         // Content
@@ -197,11 +198,11 @@ if ($errors == 0) {
     <main>
         <!-- Your content here -->
         <section class="row">
-            <div class="col s4">
+            <div class="col s12 m4">
                 <img class="responsive-img"  src="./assets/img/hackers-poulette-logo.jpg" alt="Hackers Poulette Logo">
             </div>
         
-            <h1 class="col s8">Support page</h1>
+            <h1 class="col s12 m8">Support page</h1>
             <?php //echo "<p class='col s4 $messageColor'>$serverMessage $serMessage</p>" ?>
             <?php
             foreach($serverMessages as $serverMessage){
@@ -209,18 +210,19 @@ if ($errors == 0) {
             } 
             echo $sendSuccess;
             ?>
-            <form class="col s8" method="get" action="index.php">
-                <div class="col s4" >
+            <form class="col s12 m8" method="get" action="index.php">
+                <div class="col s12 m4" >
                     <i class="material-icons">account_circle</i>
                     <label for="first_name">First Name</label>
                     <input placeholder="Enter first name!" name="first_name" id="first_name" type="text" class="validate">
                 </div>
-                <div class="col s4" >
+                <input class="hide" id="website" name="website" type="text" value=""  />
+                <div class="col s12 m4" >
                     <label for="last_name">Last Name</label>
                     <input  placeholder="Enter last name!" name="last_name" id="last_name" type="text" class="validate">
                 </div>
                 <div class="col s12">
-                    <div class="input-field col s4">
+                    <div class="input-field col s12 m4">
                         <select name="gender">
                             <option value="" disabled selected>Choose your gender</option>
                             <option value="male">male</option>
@@ -228,28 +230,28 @@ if ($errors == 0) {
                         </select>
                         <label>Gender</label>
                     </div>
-                    <div class="col s4" >
+                    <div class="col s12 m4" >
                         <label for="country">Country</label>
                         <input  placeholder="Country" name="country" id="country" type="text" class="validate">
                     </div>
                 </div>
-                <div class="col s12">
-                    <div class="col s4" >
+                <div class="col s12 m12">
+                    <div class="col s12 m4" >
                         <i class="material-icons">email</i>
                         <label for="email">Email</label>
                         <input  placeholder="Enter your email!" name="email" id="email" type="email" class="validate">
                     </div>
-                    <div class="input-field col s4">
+                    <div class="input-field col s12 m4">
                         <select name="subject" id="subject">
-                            <option value="" disabled selected>Choose your subject</option>
-                            <option value="1">Technical problem</option>
-                            <option value="2">Hardware defect</option>
-                            <option value="3">Warranty claim</option>
+                            <option value="Other" selected>Other</option>
+                            <option value="Technical_problem">Technical problem</option>
+                            <option value="Hardware_defect">Hardware defect</option>
+                            <option value="Warranty_claim">Warranty claim</option>
                         </select>
                         <label>Subject</label>
                     </div>
                 </div>
-                <div class="input-field col s8">
+                <div class="input-field col s12 m8">
                     <i class="material-icons prefix">mode_edit</i>
                     <textarea id="textarea1" name="message" class="materialize-textarea"></textarea>
                     <label for="textarea1">Message</label>
@@ -291,6 +293,11 @@ if ($errors == 0) {
     <!-- Materialize JS CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
     <script>
+       $('form').submit(function(){    
+                if ($('input#website').val().length != 0) {
+                    return false;
+                } 
+        });
 
         $('select').material_select();
         $("document").ready(function(){

@@ -17,7 +17,11 @@ body {
 
 main {
     flex: 1 0 auto;
+            
 }
+input#website { 
+                display: none !important; 
+    }
 .nav-wrapper {
     background-color: $color1 !important;
 }
@@ -30,3 +34,4 @@ footer{
 .userView{
     height: 204px !important;
 }
+
