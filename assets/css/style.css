@@ -1,6 +1,7 @@
 @font-face {
   font-family: 'Bellota-BoldItalic';
   src: url("Bellota-BoldItalic-webfont.woff") format("woff");
+  font-display: swap;
 }
 
 body {

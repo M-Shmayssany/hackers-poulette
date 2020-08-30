@@ -153,6 +153,7 @@ if ($errors == 0) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="Description" content="Support page for hackers Poulette.">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>HP | Support page</title>
@@ -228,7 +229,8 @@ if ($errors == 0) {
                             <option value="male">male</option>
                             <option value="female">female</option>
                         </select>
-                        <label>Gender</label>
+                        <label for="gender">Gender</label>
+                        <label for="select-dropdown"></label>
                     </div>
                     <div class="col s12 m4" >
                         <label for="country">Country</label>
@@ -248,7 +250,7 @@ if ($errors == 0) {
                             <option value="Hardware_defect">Hardware defect</option>
                             <option value="Warranty_claim">Warranty claim</option>
                         </select>
-                        <label>Subject</label>
+                        <label for="subject">Subject</label>
                     </div>
                 </div>
                 <div class="input-field col s12 m8">
